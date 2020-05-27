@@ -1,0 +1,5 @@
+TT-2253: INC1567090 - Union Motors Ltd. - No eco table on Summary step of Build
+TT-2291: INC1583338 - Upload certificate details to toyota.kg
+TT-2378: INC1611562 - Toyota Finland - Iframes create inline css errors in DQM
+TT-2458: INC1648687 - TME - CR - Add label 'available online' to the main menu
+TT-2475: GRD ES > Features & Specs page not available
