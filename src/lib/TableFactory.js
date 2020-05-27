@@ -8,42 +8,57 @@ const TABLE_SYMBOLS = Object.freeze({
 });
 
 module.exports.create = () => {
-	return Object.assign({}, {
-		rows: [],
-		insertRow,
-		deleteRow,
-		toString
+	let _rows = [];
+	return Object.defineProperties({}, {
+		rows: {
+			get: () => Object.freeze(_rows.slice())
+		},
+		insertRow: {
+			value: insertRow(_rows)
+		},
+		toString: {
+			value: toString(_rows)
+		}
 	});
 }
 
 /**
- * Inserts a row at the position specified (defaults to the end of the table).
- * @param rowData
- * @param index
+ * @param _rows
+ * @returns {function(): undefined}
  */
-const insertRow = function(rowData = [], index) {
-	if (Array.isArray(rowData) && rowData.length) {
-		let row = rowData.slice();
-		if (!parseInt(index) || index < 0 || index >= this.rows.length) {
-			index = this.rows.length - 1;
-		}
-		this.rows.splice(index, 0, row);
-	}
-}
-
-const deleteRow = function(index) {
-	if (parseInt(index) && this.rows[index]) {
-		this.rows.splice(index, 1);
-	}
-}
-
-const toString = function() {
-	let tableString = TABLE_SYMBOLS.OPEN;
-	for (const row of this.rows) {
-		tableString += TABLE_SYMBOLS.ROW_DELIMITER
-		for (const value of row) {
-			tableString += `${TABLE_SYMBOLS.DATA_START} ${value.trim()}\n`;
+const insertRow = _rows => (
+	/**
+	 * Inserts a row at the end of the table.
+	 * @param rowData
+	 */
+	(rowData = []) => {
+		if (Array.isArray(rowData) && rowData.length) {
+			_rows.push(rowData.slice());
 		}
 	}
-	return tableString + TABLE_SYMBOLS.CLOSE;
-}
+);
+
+/**
+ * @param _rows
+ * @returns {function(): string}
+ */
+const toString = _rows => (
+	/**
+	 * Returns the table representation as a string.
+	 * @returns {string}
+	 */
+	() => {
+		let tableString = ''
+		if (_rows.length) {
+			tableString = TABLE_SYMBOLS.OPEN;
+			for (const row of _rows) {
+				tableString += TABLE_SYMBOLS.ROW_DELIMITER
+				for (const value of row) {
+					tableString += `${TABLE_SYMBOLS.DATA_START} ${value.trim()}\n`;
+				}
+			}
+			tableString += TABLE_SYMBOLS.CLOSE;
+		}
+		return tableString;
+	}
+);

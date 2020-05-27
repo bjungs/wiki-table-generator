@@ -30,7 +30,7 @@ const TICKET_INFO_REGEX = /:(.+)/;
 let table = TableFactory.create();
 lineReader.on('line', line => {
 	let rowData = line.split(TICKET_INFO_REGEX);
-	rowData.pop(); // 'pop' removes empty string that always comes last;
+	rowData.pop(); // 'pop' removes empty string that always comes last
 	table.insertRow(rowData);
 });
 
