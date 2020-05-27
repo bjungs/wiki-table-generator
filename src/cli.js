@@ -2,7 +2,7 @@
 'use strict';
 
 if (process.argv.length < 3) {
-	console.log('Usage: node main <filename>');
+	console.log('Usage: npx wiki-table-generator <filename>');
 	process.exit();
 }
 
