@@ -1,5 +1,5 @@
 {
-  "name": "dev-wiki-version-generator",
+  "name": "wiki-table-generator",
   "version": "1.0.0",
   "description": "Generates a table containing data to be formatted according to Wiki format.",
   "main": "src/main.js",
