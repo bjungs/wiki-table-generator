@@ -1,11 +1,12 @@
 {
   "name": "wiki-table-generator",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Generates a table containing data to be formatted according to Wiki format.",
-  "main": "src/main.js",
+  "main": "src/lib/TableFactory.js",
   "scripts": {
     "test": "mocha src/test/TableFactory.js"
   },
+  "bin": "src/cli.js",
   "keywords": [
     "Wiki"
   ],
