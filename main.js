@@ -14,26 +14,44 @@ if (!fs.existsSync(filePath)) {
 	process.exit();
 }
 
-const fileStream = fs.createReadStream(filePath);
+const inputStream = fs.createReadStream(filePath);
+
 const lineReader = readline.createInterface({
-		input: fileStream,
+		input: inputStream,
 		// to identify all instances of CR LF ('\r\n') as a single line break
 		crlfDelay: Infinity
 	});
 
-console.log('File contents:\n-----');
+const TICKET_INFO_REGEX = /:(.+)/;
+const OPEN_TABLE = '{|\n';
+const CLOSE_TABLE = '|}';
+const TABLE_ROW_DELIMITER = '|-\n';
 
+const generateRow = data => {
+	let row = TABLE_ROW_DELIMITER;
+	row += `| ${data[0].trim()}\n`;
+	row += `| ${data[1].trim()}\n`;
+	return row;
+};
+
+let outputData = OPEN_TABLE;
 lineReader.on('line', line => {
-	console.log(line);
+	const ticketInfo = line.split(TICKET_INFO_REGEX);
+	ticketInfo.pop(); // remove empty string coming last
+	if (ticketInfo.length > 1) {
+		outputData += generateRow(ticketInfo);
+	}
+});
+
+lineReader.on('close', () => {
+	outputData += CLOSE_TABLE;
+	console.log(outputData);
 });
 
 lineReader.on('error', err => {
 	console.error(err);
 });
 
-lineReader.on('close', () => {
-	console.log('-----');
-});
 
 
 
