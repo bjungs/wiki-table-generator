@@ -7,11 +7,15 @@ const TABLE_SYMBOLS = Object.freeze({
 	DATA_START: '|'
 });
 
+/**
+ * Returns a new empty table object.
+ * @returns {object}
+ */
 module.exports.create = () => {
 	let _rows = [];
 	return Object.defineProperties({}, {
-		rows: {
-			get: () => Object.freeze(_rows.slice())
+		getRows: {
+			value: () => Object.freeze(_rows.slice())
 		},
 		insertRow: {
 			value: insertRow(_rows)
@@ -29,7 +33,7 @@ module.exports.create = () => {
 const insertRow = _rows => (
 	/**
 	 * Inserts a row at the end of the table.
-	 * @param rowData
+	 * @param rowData {Array<string>}
 	 */
 	(rowData = []) => {
 		if (Array.isArray(rowData) && rowData.length) {
@@ -54,7 +58,7 @@ const toString = _rows => (
 			for (const row of _rows) {
 				tableString += TABLE_SYMBOLS.ROW_DELIMITER
 				for (const value of row) {
-					tableString += `${TABLE_SYMBOLS.DATA_START} ${value.trim()}\n`;
+					tableString += `${TABLE_SYMBOLS.DATA_START} ${value.toString().trim()}\n`;
 				}
 			}
 			tableString += TABLE_SYMBOLS.CLOSE;
