@@ -1,0 +1,14 @@
+{
+  "name": "dev-wiki-version-generator",
+  "version": "0.0.0",
+  "description": "Generates text used in the Dev Wiki to explain version information.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "T1"
+  ],
+  "author": "Bernardo Jungstedt Custodio Nunes",
+  "license": "ISC"
+}
