@@ -1,13 +1,13 @@
 {
   "name": "dev-wiki-version-generator",
   "version": "1.0.0",
-  "description": "Generates text used in the Dev Wiki to explain version information.",
+  "description": "Generates a table containing data to be formatted according to Wiki format.",
   "main": "src/main.js",
   "scripts": {
     "test": "mocha src/test/TableFactory.js"
   },
   "keywords": [
-    "T1"
+    "Wiki"
   ],
   "author": "Bernardo Jungstedt Custodio Nunes",
   "license": "ISC",
