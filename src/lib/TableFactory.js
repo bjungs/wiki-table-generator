@@ -7,6 +7,10 @@ const TABLE_SYMBOLS = Object.freeze({
 	DATA_START: '|'
 });
 
+const UNSUPPORTED_CHARACTERS_ESCAPED = {
+	'|': '&#124;'
+}
+
 /**
  * Returns a new empty table object.
  * @returns {object} {
@@ -67,8 +71,8 @@ const toString = _rows => (
 			tableString = TABLE_SYMBOLS.OPEN;
 			for (const row of _rows) {
 				tableString += TABLE_SYMBOLS.ROW_DELIMITER
-				for (const value of row) {
-					tableString += `${TABLE_SYMBOLS.DATA_START} ${value.toString().trim()}\n`;
+				for (const line of row) {
+					tableString += `${TABLE_SYMBOLS.DATA_START} ${escapeUnsupportedCharacters(line.toString().trim())}\n`;
 				}
 			}
 			tableString += TABLE_SYMBOLS.CLOSE;
@@ -76,3 +80,12 @@ const toString = _rows => (
 		return tableString;
 	}
 );
+
+const escapeUnsupportedCharacters = text => {
+	for (let char in UNSUPPORTED_CHARACTERS_ESCAPED) {
+		const replacementRegex = new RegExp(`[${char}]`, 'gi');
+		console.log(replacementRegex);
+		text = text.replace(replacementRegex, UNSUPPORTED_CHARACTERS_ESCAPED[char]);
+	}
+	return text;
+}
