@@ -26,13 +26,9 @@ const lineReader = readline.createInterface({
 		crlfDelay: Infinity
 	});
 
-const TICKET_INFO_REGEX = /:(.+)/;
-
-let table = TableFactory.create();
+let table = TableFactory.create(':');
 lineReader.on('line', line => {
-	let rowData = line.split(TICKET_INFO_REGEX);
-	rowData.pop(); // 'pop' removes empty string that always comes last
-	table.insertRow(rowData);
+	table.insertRow(line);
 });
 
 lineReader.on('close', () => {
