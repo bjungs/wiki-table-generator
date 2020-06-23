@@ -2,6 +2,7 @@
   "name": "wiki-table-generator",
   "version": "2.0.4",
   "description": "Generates a table containing data formatted according to Wiki standard.",
+  "homepage": "https://github.com/Narduw/wiki-table-generator",
   "main": "src/lib/TableFactory.js",
   "scripts": {
     "test": "mocha src/test/TableFactory.js"
