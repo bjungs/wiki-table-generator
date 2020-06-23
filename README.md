@@ -10,11 +10,11 @@ e.g.:
 
 file:
 ```
-column0 : column1 // two columns
-column0 : column1 : column2 // three columns
-column0 : column1 : column2 : column3 // four columns
-column0 : column1 : : column3 // four columns, empty third column
-column0 :: column2 : column3 // four columns, empty second column
+column0 : column1
+column0 : column1: column2
+column0 : column1 : column2 :column3
+column0 : column1 : : column3
+: column1 : column2 :
 ```
 
 result:
@@ -41,9 +41,9 @@ result:
 | 
 | column3
 |-
-| column0
 | 
+| column1
 | column2
-| column3
+| 
 |}
 ```
