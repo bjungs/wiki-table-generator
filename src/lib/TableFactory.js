@@ -16,7 +16,7 @@ const UNSUPPORTED_CHARACTERS_ESCAPED = {
  * @returns {object} {
  *     getRows: {function}: returns a copy of the current rows array,
  *     insertRow: {function(string)}: inserts a new row into the table,
- *     toString: {function}: stringifies the trable into Wiki format,
+ *     toString: {function}: stringifies the table into Wiki format,
  *     separator: {RegExp}: RegExp object to separate the line into header and data
  * }
  */
@@ -84,7 +84,6 @@ const toString = _rows => (
 const escapeUnsupportedCharacters = text => {
 	for (let char in UNSUPPORTED_CHARACTERS_ESCAPED) {
 		const replacementRegex = new RegExp(`[${char}]`, 'gi');
-		console.log(replacementRegex);
 		text = text.replace(replacementRegex, UNSUPPORTED_CHARACTERS_ESCAPED[char]);
 	}
 	return text;
