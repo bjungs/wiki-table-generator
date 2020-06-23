@@ -22,6 +22,7 @@ const UNSUPPORTED_CHARACTERS_ESCAPED = {
  */
 module.exports.create = (separator = ':') => {
 	let _rows = [];
+	_rows.maxColumns = 0;
 	return Object.defineProperties({}, {
 		getRows: {
 			value: () => Object.freeze(_rows.slice())
@@ -33,7 +34,7 @@ module.exports.create = (separator = ':') => {
 			value: toString(_rows)
 		},
 		separator: {
-			value: new RegExp(`${separator}(.+)`)
+			value: separator
 		}
 	});
 }
@@ -42,19 +43,21 @@ module.exports.create = (separator = ':') => {
  * @param _rows
  * @returns {function(): undefined}
  */
-const insertRow = _rows => (
+const insertRow = _rows => {
 	/**
 	 * Inserts a row at the end of the table.
-	 * @param line {string}
+	 * @param line {string|string[]}
 	 */
-	function (line = '') {
-		let rowData = line.split(this.separator);
-		rowData.pop(); // 'pop' removes empty string that always comes last
+	return function (rowData = '') {
+		if (typeof rowData === 'string') {
+			rowData = rowData.split(this.separator);
+		}
+		_rows.maxColumns = Math.max(_rows.maxColumns, rowData.length);
 		if (Array.isArray(rowData) && rowData.length) {
 			_rows.push(rowData.slice());
 		}
 	}
-);
+};
 
 /**
  * @param _rows
@@ -71,8 +74,9 @@ const toString = _rows => (
 			tableString = TABLE_SYMBOLS.OPEN;
 			for (const row of _rows) {
 				tableString += TABLE_SYMBOLS.ROW_DELIMITER
-				for (const line of row) {
-					tableString += `${TABLE_SYMBOLS.DATA_START} ${escapeUnsupportedCharacters(line.toString().trim())}\n`;
+				for (let line = 0; line < _rows.maxColumns; line++) {
+					const lineString = row[line] ? row[line].toString().trim() : '';
+					tableString += `${TABLE_SYMBOLS.DATA_START} ${escapeUnsupportedCharacters(lineString)}\n`;
 				}
 			}
 			tableString += TABLE_SYMBOLS.CLOSE;

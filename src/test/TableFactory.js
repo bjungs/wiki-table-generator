@@ -6,7 +6,7 @@ const tableFactory = require('../lib/TableFactory');
 describe('TableFactory', () => {
 	describe('Immutability', () => {
 		let table = tableFactory.create();
-		it('Immutable properties', done => {
+		it('immutable properties', done => {
 			for (const prop in table) {
 				try {
 					table[prop] = 'test';
@@ -16,7 +16,7 @@ describe('TableFactory', () => {
 			done();
 		});
 	});
-	describe('InsertRow', () => {
+	describe('insertRow', () => {
 		let table = tableFactory.create();
 		const rowData = ['Column1', 'Column2', 'Column3'];
 		it('Inserting data', done => {
@@ -32,9 +32,8 @@ describe('TableFactory', () => {
 		it('Converting data to String', done => {
 			table.insertRow([1, 2]);
 			table.insertRow(['test', 'testing...']);
-			table.insertRow([5, 6, 7]);
-			const stringTable = table.toString();
-			assert.strictEqual(stringTable, '{|\n' +
+			table.insertRow([5, 6]);
+			assert.strictEqual(table.toString(), '{|\n' +
 				'|-\n' +
 				`| ${table.getRows()[0][0].toString()}\n` +
 				`| ${table.getRows()[0][1].toString()}\n` +
@@ -44,9 +43,34 @@ describe('TableFactory', () => {
 				'|-\n' +
 				`| ${table.getRows()[2][0].toString()}\n` +
 				`| ${table.getRows()[2][1].toString()}\n` +
-				`| ${table.getRows()[2][2].toString()}\n` +
-				'|}')
+				'|}');
 			done();
 		});
-	})
+	});
+	describe('column asymmetry', () => {
+		let table = tableFactory.create();
+		it('', done => {
+			table.insertRow([1, 2])
+			table.insertRow([3, 'test', 5, undefined]);
+			table.insertRow([3, null, 5]);
+			assert.strictEqual(table.toString(), '{|\n' +
+				'|-\n' +
+				`| ${table.getRows()[0][0].toString()}\n` +
+				`| ${table.getRows()[0][1].toString()}\n` +
+				'| \n' + // empty spaces where the missing values would be
+				'| \n' +
+				'|-\n' +
+				`| ${table.getRows()[1][0].toString()}\n` +
+				`| ${table.getRows()[1][1].toString()}\n` +
+				`| ${table.getRows()[1][2].toString()}\n` +
+				'| \n' +
+				'|-\n' +
+				`| ${table.getRows()[2][0].toString()}\n` +
+				'| \n' +
+				`| ${table.getRows()[2][2].toString()}\n` +
+				'| \n' +
+				'|}');
+			done();
+		});
+	});
 })
